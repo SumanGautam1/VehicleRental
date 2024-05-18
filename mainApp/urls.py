@@ -12,7 +12,7 @@ urlpatterns = [
     path('admin_home/', admin_home, name='admin_home'),
     
     #dashboard configs
-    path('vehicle_on_rent', vehicle_on_rent, name='vehicle_on_rent'),
+    path('vehicle_on_rent/', vehicle_on_rent, name='vehicle_on_rent'),
 
     # categories
     path('category/', category_all, name='all_category'),

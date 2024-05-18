@@ -24,18 +24,24 @@ Home
                   <p style="color: white !important; ">@{{ user.username }}</p> </p>
               
           </div>
-          <a href="#">DETAILS</a>
-          <a href="{% url 'vehicle_register' %}">ADD VEHICLE</a>
-          <a href="{% url 'vehicle_on_rent' %}">YOUR VEHICLE</a>
+          <a href="#" class="{% if '/owner_details/' in request.path %}
+          active-dashboard
+      {% endif %} ">DETAILS</a>
+          <a href="{% url 'vehicle_register' %}" class="{% if '/vehicle_register/' in request.path %}
+          active-dashboard
+      {% endif %} ">ADD VEHICLE</a>
+          <a href="{% url 'vehicle_on_rent' %}" class="{% if '/vehicle_on_rent/' in request.path %}
+          active-dashboard
+      {% endif %} ">YOUR VEHICLE</a>
           <a href="{% url 'logout' %}"><button type="button" class="btn btn-primary">SignOut</button></a>
         </div>
       </div>
       
       
-      <div class="sidebar_content">
+      
           {% block sidebar_content %}
           {% endblock sidebar_content %}
-      </div>
+      
 </div>
 
 {% endblock content %}

@@ -4,13 +4,17 @@
   z-index: 10;
 }
 
-.main-container {
-  display: flex;
+.main-container{
+  display:flex;
 }
 
 .sidebar_content {
   margin-left: 30%;
     padding: 1px 16px;
+}
+
+.active-dashboard{
+  color: white !important;
 }
 
 @media screen and (max-width: 700px){
@@ -50,10 +54,7 @@
     opacity: 0.3;
   }
   
-  .elements{
-    padding-top: 60%;
-    /* padding-left: 5%; */
-  }
+
   
   /* The navigation menu links */
   .sidenav a {

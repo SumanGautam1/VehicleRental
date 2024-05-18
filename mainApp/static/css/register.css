@@ -175,3 +175,16 @@ body{
   .form label{
     color:#49a1f4;
   }
+
+
+.register-image{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+
+.table-styles{
+    width: 800px;
+    margin: 50px;
+}
+
