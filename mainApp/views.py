@@ -54,15 +54,7 @@ def vehicle(request,pk):
 
     return render(request, 'pages/vehicle.html',context)
 
-def vehicle_register(request):
-    if request.method == 'POST':
-        form = VehicleForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('register_dealer')
-    else:
-        form = VehicleForm()
-    return render(request, 'pages/vehicle_register.html', {'form': form})
+
 
 
 # dashboard section start
@@ -77,12 +69,26 @@ def customer_home(request):
 def owner_home(request):
      return render(request, 'pages/owner/owner_home.html')
 
+@owner_only
+def vehicle_register(request):
+    if request.method == 'POST':
+        form = VehicleForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('owner_home')
+    else:
+        form = VehicleForm()
+    return render(request, 'pages/owner/vehicle_register.html', {'form': form})
+
 @admin_only
 def admin_home(request):
      return render(request, 'pages/admin/admin_home.html')
 
-def access_denied(request):
-     return render(request, 'pages/access_denied.html')
+def auth_denied(request):
+     return render(request, 'pages/access/auth_denied.html')
+
+def customer_needed(request):
+     return render(request, 'pages/access/customer_needed.html')
 # dashboard section end
 
 # auth section start

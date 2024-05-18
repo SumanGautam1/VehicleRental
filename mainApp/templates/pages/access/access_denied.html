@@ -19,7 +19,9 @@
 
 {% block content %}
 <div class="container" style="margin-top: 20px;">
-    <h1 class="sorry text-center">Sorry! You do not have permission to view this page!</h1>
+    <h1 class="sorry text-center">{% block description %}
+      
+    {% endblock description %}</h1>
     <img src="https://i.pinimg.com/originals/8e/9a/f7/8e9af7a822e082bc47feb3d2fcb57be1.gif" alt="Sorry" sizes="" srcset="">
 </div>
 <br><br><br><br>

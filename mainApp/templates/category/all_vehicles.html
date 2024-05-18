@@ -15,7 +15,7 @@ All Vechicles
     <div class="row">
         {% for vehicle in vehicles %}
         <div class="col-md-6">
-            <div class="card mb-3 " style="height: 300px;">
+            <div class="card mb-3 " style="height: 300px; border: 2px solid black !important;">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="{{ vehicle.image.url }}" class="img-fluid rounded-start" alt="...">
@@ -28,7 +28,15 @@ All Vechicles
 
 
                             <br /><br />
-                            <a href=""><button type="button" class="btn learn-more">Rent</button></a>
+
+                            {% if request.user.is_customer %}
+                            <a href="/customer_home/"><button type="button" class="btn learn-more">Rent</button></a>
+                            {% else %}
+                            <a href="/customer_needed/"><button type="button" class="btn learn-more">Rent</button></a>
+                            {% endif %}
+
+                            <a href="{% url 'vehicle' vehicle.id  %}"><button type="button"
+                                    class="btn learn-more">Details</button></a>
                             <h4 style="float: right;"><strong>RS {{vehicle.rent_price}}</strong></h4>
                             <br>
                             <br>

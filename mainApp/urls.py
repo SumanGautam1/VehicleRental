@@ -15,9 +15,10 @@ urlpatterns = [
     path('vehicle/<int:pk>', vehicle, name='vehicle'),
     path('individual_category/<str:space>', category_individual, name='individual_category'),
     path('all_vehicles/', all_vehicles, name='all_vehicles'),
+    path('vehicle_register/', vehicle_register, name='vehicle_register'),
 
-    path('signin_option/', profile, name='signin_option'),
-    path('access_denied/', access_denied, name='access_denied'),
+    path('auth_denied/', auth_denied, name='auth_denied'),
+    path('customer_needed/', customer_needed, name='customer_needed'),
 
     # auth section
     path('login/', login_view, name='login_view'),
