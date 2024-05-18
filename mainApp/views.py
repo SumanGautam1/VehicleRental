@@ -66,19 +66,30 @@ def customer_home(request):
      return render(request, 'pages/customer/customer_home.html')
 
 @owner_only
-def owner_home(request):
-     return render(request, 'pages/owner/owner_home.html')
+def owner_details(request):
+     return render(request, 'pages/owner/owner_details.html')
 
 @owner_only
 def vehicle_register(request):
     if request.method == 'POST':
         form = VehicleForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('owner_home')
+            vehicle = form.save(commit=False)  # Do not save to the database yet
+            vehicle.uploaded_by = request.user  # Set the uploaded_by field to the current user
+            vehicle.save()  # Now save the instance to the database
+            return redirect('owner_details')  # Adjust this to your desired success URL
     else:
         form = VehicleForm()
     return render(request, 'pages/owner/vehicle_register.html', {'form': form})
+
+@owner_only
+def vehicle_on_rent(request):
+    rented_vehicles = Vehicles.objects.filter(uploaded_by=request.user)
+    context={
+        'context':'suman',
+        'rented_vehicles': rented_vehicles,
+    }
+    return render(request, 'pages/owner/vehicle_on_rent.html', context)
 
 @admin_only
 def admin_home(request):
@@ -130,7 +141,7 @@ def login_view(request):
             elif user is not None and user.is_owner:
                 login(request, user)
                 messages.success(request, "Welcome owner")
-                return redirect('owner_home')
+                return redirect('owner_details')
             else:
                 messages.error(request,"Try again!")
                 return redirect('login_view')

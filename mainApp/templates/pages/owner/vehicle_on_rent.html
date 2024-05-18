@@ -1,0 +1,18 @@
+{% extends "pages/owner/base_owner.html" %}
+{% load static %}
+
+{% block title %}
+Your Vechicles
+{% endblock title %}
+
+{% block sidebar_content %}
+{% for i in rented_vehicles %}
+<h1 style="color: white;">{{i.vehicle_model}}</h1>
+{% endfor %}
+
+{% endblock sidebar_content %}
+
+
+
+
+

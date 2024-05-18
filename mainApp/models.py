@@ -19,19 +19,23 @@ class Category(models.Model):
 	
 	class Meta:
 		verbose_name_plural = 'categories' 
-		
-class Vehicles(models.Model):
-	vehicle_model = models.CharField(max_length=100)
-	rent_price = models.PositiveIntegerField()
-	category = models.ForeignKey(Category, on_delete=models.CASCADE)
-	description = models.CharField(max_length=250, default='', blank=True, null=True)
-	image = models.ImageField(upload_to='uploads/product/')
-
-	def __str__(self):
-		return self.vehicle_model
 
 
 class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
     is_customer = models.BooleanField(default=True)
     is_owner = models.BooleanField(default=False)
+
+class Vehicles(models.Model):
+	vehicle_model = models.CharField(max_length=100)
+	rent_price = models.PositiveIntegerField()
+	category = models.ForeignKey(Category, on_delete=models.CASCADE)
+	description = models.CharField(max_length=250, default='', blank=True, null=True)
+	image = models.ImageField(upload_to='uploads/product/')
+	uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return self.vehicle_model
+
+
+
