@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+<div class="container">
+  <div class="back_arrow">
+    <a href="{{request.META.HTTP_REFERER}}"><i class="fa-solid fa-arrow-left"></i> Go back</a>
+  </div>
+  
+<br/>
+
+
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{ vehicle.image.url }}" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="vehicle_model_1 vehicle_model">{{ vehicle.vehicle_model }}</h5>
+        <br/>
+        <p class="card-text justified">{{ vehicle.description }}</p>
+        
+        
+            <br/><br/>
+            <a href="/customer/"><button type="button" class="btn learn-more">Rent</button></a>
+						<h4 style="float: right;"><strong>RS {{vehicle.rent_price}}</strong></h4>
+						<br>
+				<br>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+        	
+
+
+
+{% endblock %}
