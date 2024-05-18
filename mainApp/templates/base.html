@@ -61,13 +61,13 @@
                             active
                           {% endif %} " href="/about/">ABOUT US</a>
                         </li>
-                        <li class="nav-item dropdown" id="rent-dropdown">
+                        <li class="nav-item dropdown-center" id="rent-dropdown">
                             <a class="nav-link dropdown-toggle {% if '/category/' in request.path or '/individual_category/' in request.path or '/vehicle/' in request.path or '/all_vehicles/' in request.path %}
                             active
                           {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 RENT VEHICLE
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu dropdown-menu-end">
                               <li><a class="dropdown-item" href="{% url 'all_vehicles' %}">All Vehicles</a></li>
                               <li><a class="dropdown-item" href="{% url 'all_category' %}">All Categories</a></li>
                               <li><hr class="dropdown-divider"></li>

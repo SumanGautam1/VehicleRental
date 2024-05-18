@@ -1,14 +1,63 @@
+#nav-bar {
+  position:static !important;
+  top: 0;
+  z-index: 10;
+}
+
+.main-container {
+  display: flex;
+}
+
+.sidebar_content {
+  margin-left: 30%;
+    padding: 1px 16px;
+}
+
+@media screen and (max-width: 700px){
+  .sidebar_content{
+    margin-left: 0;
+  }
+}
+
 /* The sidebar menu */
 .sidenav {
-    width: 160px; /* Set the width of the sidebar */
-    
-    background-color: #252525; /* Black */
+    width: 190px; /* Set the width of the sidebar */
+    height: 835px;
+    background-color: #252525;
     padding-top: 20px;
+  }
+
+  .image{
+    
+    margin-left: 25%;
+    position: relative;
+    width: 50%;
+    margin-bottom: 50px;
+  }
+
+  .image img{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    opacity: 1;
+    display: block;
+    /* width: 100%; */
+    transition: .5s ease;
+    backface-visibility: hidden;
+  }
+  
+  .image:hover img {
+    opacity: 0.3;
+  }
+  
+  .elements{
+    padding-top: 60%;
+    /* padding-left: 5%; */
   }
   
   /* The navigation menu links */
   .sidenav a {
-    padding: 20px;
+    padding: 10px;
     text-decoration: none;
     font-size: 17px;
     color: #818181;
