@@ -6,12 +6,16 @@ urlpatterns = [
     path('',homepage,name='home'),
     path('about/', about_page, name='about'),
 
-    # dashboards
-    path('customer_home/', customer_home, name='customer_home'),
+    # Profile
+    path('customer_details/', customer_details, name='customer_details'),
     path('owner_details/', owner_details, name='owner_details'),
     path('admin_home/', admin_home, name='admin_home'),
     
     # dashboard configs
+    # customer dashboard
+    path('rent_page/', rent_page, name='rent_page'),
+    path('initiate',initkhalti,name="initiate"),
+
     # owner dashboard
     path('vehicle_on_rent/', vehicle_on_rent, name='vehicle_on_rent'),
     path('vehicle/update/<int:id>/', vehicle_update, name='vehicle_update'),

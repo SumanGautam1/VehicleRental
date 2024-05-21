@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}
+  Rent Vehicle
+{% endblock title %}
+
+{% block content %}
+<h1>I am implementing khalti payment gateway</h1>
+<h1>Put your own live secret key.Otherwise you will get error</h1>
+<form action="{% url 'initiate' %}" method="POST">
+    {% csrf_token %}
+
+    <div class="details">
+      <h1 style="border-bottom: 2px solid white; font-weight: 600; ">Buy Subscription</h1>
+      <div class="mb-3">
+        <label class="form-label"><b>Full Name</b></label>
+        <input type="text" class="form-control" name="username">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><b>Phone Number</b></label>
+        <input type="text" class="form-control" name="phone">
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"><b>Email address</b></label>
+        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label"><b>Amount</b></label>
+        <input class="form-control" id="disabledInput" type="text" placeholder="RS 200" value="1000" name="amount" disabled>
+      </div>
+
+      <input type="hidden" name="purchase_order_id" value="kjnk1232k1k4b">
+      <input type="hidden" name="purchase_order_name" value="subscription">
+
+      <button type="submit" class="btn btn-danger" value="Pay With Khalti">Subscribe</button>
+      <input type="hidden" name="return_url" value="http://127.0.0.1:8000/notices">
+    </div>
+
+  </form>
+{% endblock content %}

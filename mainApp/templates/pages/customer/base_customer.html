@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block stylesheet %}
+
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock stylesheet %}
+
+{% block content %}
+
+
+
+<div class="main-container">
+    <div class="sidenav">
+        <div class="elements text-center">
+          <div class="image">
+          <p><img src="{% static 'images/pfp.jpeg' %}" class="img-fluid" alt="">
+      
+                  <p style="color: white !important; ">@{{ user.username }}</p> </p>
+              
+          </div>
+          <a href="{% url 'customer_details' %}" class="{% if '/customer_details/' in request.path %}
+          active-dashboard
+      {% endif %} ">DETAILS</a>
+          <a href="{% url 'rent_page' %}" class="{% if '/rent_page/' in request.path %}
+          active-dashboard
+      {% endif %} ">RENTED VEHICLE</a>
+          <a href="{% url 'logout' %}"><button type="button" class="btn btn-primary">SignOut</button></a>
+        </div>
+      </div>
+      
+      
+      
+          {% block sidebar_content %}
+          {% endblock sidebar_content %}
+      
+</div>
+
+{% endblock content %}
+  
+
+
+
+{% block footer-js %}
+{% if messages %}
+{% for message in messages %}
+<script>
+  alertify.set('notifier', 'position', 'top-center');
+  alertify.success('{{message}}');
+</script>
+{% endfor %}
+{% endif %}
+{% endblock footer-js %}

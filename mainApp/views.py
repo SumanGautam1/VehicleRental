@@ -6,10 +6,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from .decorators import admin_only, owner_only, customer_only
+import requests
+import json
 
 # Create your views here.
 def homepage(request):
-    works = Works.objects.all()
+    works = Works.objects.all() # for the working process of the system
     context = {
         'works':works,
     }
@@ -58,7 +60,7 @@ def vehicle(request,pk):
 def is_valid_queryparam(param):
     return param != '' and param is not None
 
-# Search vehicle
+# Search vehicle plus filter
 def search_vehicle(request):
     qs = Vehicles.objects.filter(isDelete=False)
     # categories = Category.objects.all()
@@ -67,16 +69,16 @@ def search_vehicle(request):
     max_rate = request.GET.get('max_rate')
     category = request.GET.get('category')
 
-    if is_valid_queryparam(searched):
+    if is_valid_queryparam(searched): # for the model name search
         qs = qs.filter(vehicle_model__icontains=searched)
 
-    if is_valid_queryparam(min_rate):
+    if is_valid_queryparam(min_rate):   # minimum rental price
         qs = qs.filter(rent_price__gte=min_rate)
 
-    if is_valid_queryparam(max_rate):
+    if is_valid_queryparam(max_rate):   # maximum rental price
         qs = qs.filter(rent_price__lte=max_rate)
 
-    if is_valid_queryparam(category) and category != 'Choose...':
+    if is_valid_queryparam(category) and category != 'Choose...':   # choose vehicle category
         qs = qs.filter(category__name=category)
     
     return render(request, 'category/search_vehicle.html', {'query': qs, 'searched': searched})
@@ -86,10 +88,17 @@ def search_vehicle(request):
 def profile(request):
      return render(request, 'auth/profile_load.html')
 
+# customer only section
 @customer_only
-def customer_home(request):
-     return render(request, 'pages/customer/customer_home.html')
+def customer_details(request):
+     return render(request, 'pages/customer/customer_details.html')
 
+@customer_only
+def rent_page(request):
+    return render(request, 'pages/customer/rent_page.html')
+# customer only section ends
+
+# owner only section
 @owner_only
 def owner_details(request):
      return render(request, 'pages/owner/owner_details.html')
@@ -139,19 +148,27 @@ def vehicle_on_rent(request):
     }
     return render(request, 'pages/owner/vehicle_on_rent.html', context)
 
+# owner only section ends
 
-
-
+# admin only section
 @admin_only
 def admin_home(request):
      return render(request, 'pages/admin/admin_home.html')
 
+
+# admin only section ends
+
+# access denied section
 def auth_denied(request):
      return render(request, 'pages/access/auth_denied.html')
 
 def customer_needed(request):
      return render(request, 'pages/access/customer_needed.html')
-# dashboard section end
+# access denied section ends
+
+# dashboard section ends
+
+
 
 # auth section start
 def register(request):
@@ -188,7 +205,7 @@ def login_view(request):
             elif user is not None and user.is_customer:
                 login(request, user)
                 messages.success(request, "Welcome customer")
-                return redirect('customer_home')
+                return redirect('customer_details')
             elif user is not None and user.is_owner:
                 login(request, user)
                 messages.success(request, "Welcome owner")
@@ -215,3 +232,58 @@ def log_out(request):
     return redirect('login_view')
 
 # auth section end
+
+
+
+
+# Payment section begin
+
+def initkhalti(request):
+    url = "https://a.khalti.com/api/v2/epayment/initiate/"
+    return_url = request.POST.get('return_url')
+    website_url = request.POST.get('return_url')
+    amount = 1000
+    purchase_order_id = request.POST.get('purchase_order_id')
+    purchase_order_name = request.POST.get('purchase_order_name')
+    username = request.POST.get('username')
+    email = request.POST.get('email')
+    phone = request.POST.get('phone')
+
+
+    print("url",url)
+    print("return_url",return_url)
+    print("web_url",website_url)
+    print("amount",amount)
+    print("purchase_order_id",purchase_order_id)
+    print('username',username)
+    print('email',email)
+    print('phone',phone)
+    payload = json.dumps({
+        "return_url": return_url,
+        "website_url": return_url,
+        "amount": amount,
+        "purchase_order_id": purchase_order_id,
+        "purchase_order_name": purchase_order_name,
+        "customer_info": {
+            "name": username,
+            "email": email,
+            "phone": phone,
+        }
+    })
+
+    # put your own live secet for admin
+    headers = {
+        'Authorization': 'Key live_secret_key_68791341fdd94846a146f0457ff7b455',
+        'Content-Type': 'application/json',
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    print(response.text)
+    new_res = json.loads(response.text)
+
+    print(type(new_res))
+    # return redirect('notices')
+    # print(response.json())
+    # print(new_res['payment_url'])
+    return redirect(new_res['payment_url'])
