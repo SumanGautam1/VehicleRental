@@ -30,7 +30,7 @@ def category_all(request):
 def category_individual(request,space):
     space = space.replace('-', ' ')
     category = Category.objects.get(name=space)
-    vehicles = Vehicles.objects.filter(category=category)
+    vehicles = Vehicles.objects.filter(category=category,isDelete=False)
     context = {
                  'vehicles':vehicles, 
                  'category':category,
@@ -39,7 +39,7 @@ def category_individual(request,space):
     return render(request, 'category/individual_category.html', context)
 
 def all_vehicles(request):
-     vehicles = Vehicles.objects.all()
+     vehicles = Vehicles.objects.filter(isDelete=False)
 
      context={
           'vehicles':vehicles
@@ -54,7 +54,32 @@ def vehicle(request,pk):
 
     return render(request, 'pages/vehicle.html',context)
 
+# Check if the input is a non-null and non-empty value
+def is_valid_queryparam(param):
+    return param != '' and param is not None
 
+# Search vehicle
+def search_vehicle(request):
+    qs = Vehicles.objects.filter(isDelete=False)
+    # categories = Category.objects.all()
+    searched = request.GET.get('searched')
+    min_rate = request.GET.get('min_rate')
+    max_rate = request.GET.get('max_rate')
+    category = request.GET.get('category')
+
+    if is_valid_queryparam(searched):
+        qs = qs.filter(vehicle_model__icontains=searched)
+
+    if is_valid_queryparam(min_rate):
+        qs = qs.filter(rent_price__gte=min_rate)
+
+    if is_valid_queryparam(max_rate):
+        qs = qs.filter(rent_price__lte=max_rate)
+
+    if is_valid_queryparam(category) and category != 'Choose...':
+        qs = qs.filter(category__name=category)
+    
+    return render(request, 'category/search_vehicle.html', {'query': qs, 'searched': searched})
 
 
 # dashboard section start
@@ -77,19 +102,45 @@ def vehicle_register(request):
             vehicle = form.save(commit=False)  # Do not save to the database yet
             vehicle.uploaded_by = request.user  # Set the uploaded_by field to the current user
             vehicle.save()  # Now save the instance to the database
-            return redirect('owner_details')  # Adjust this to your desired success URL
+            return redirect('owner_details')
     else:
         form = VehicleForm()
     return render(request, 'pages/owner/vehicle_register.html', {'form': form})
 
 @owner_only
+def vehicle_update(request, id):
+    vehicle = Vehicles.objects.get(id=id)  # Retrieve the vehicle instance by primary key
+
+    if request.method == 'POST':
+        form = VehicleForm(request.POST, request.FILES, instance=vehicle)
+        if form.is_valid():
+            form.save()  # Save the updated vehicle instance
+            return redirect('vehicle_on_rent')
+    else:
+        form = VehicleForm(instance=vehicle)  # Populate the form with the existing vehicle data
+
+    return render(request, 'pages/owner/vehicle_update.html', {'form': form})
+
+
+@owner_only
+def vehicle_delete(request, id):
+    vehicle = Vehicles.objects.get(id=id)  # Retrieve the vehicle instance by primary key
+    vehicle.isDelete=True
+    vehicle.save()
+    return redirect('vehicle_on_rent')
+
+
+@owner_only
 def vehicle_on_rent(request):
-    rented_vehicles = Vehicles.objects.filter(uploaded_by=request.user)
+    rented_vehicles = Vehicles.objects.filter(uploaded_by=request.user, isDelete=False)
     context={
         'context':'suman',
         'rented_vehicles': rented_vehicles,
     }
     return render(request, 'pages/owner/vehicle_on_rent.html', context)
+
+
+
 
 @admin_only
 def admin_home(request):

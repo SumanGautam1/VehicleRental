@@ -28,11 +28,12 @@ class User(AbstractUser):
 
 class Vehicles(models.Model):
 	vehicle_model = models.CharField(max_length=100)
-	rent_price = models.PositiveIntegerField()
+	rent_price = models.PositiveIntegerField(default=0)
 	category = models.ForeignKey(Category, on_delete=models.CASCADE)
 	description = models.CharField(max_length=250, default='', blank=True, null=True)
 	image = models.ImageField(upload_to='uploads/product/')
 	uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
+	isDelete = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.vehicle_model

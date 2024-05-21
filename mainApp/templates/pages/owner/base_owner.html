@@ -24,7 +24,7 @@ Home
                   <p style="color: white !important; ">@{{ user.username }}</p> </p>
               
           </div>
-          <a href="#" class="{% if '/owner_details/' in request.path %}
+          <a href="{% url 'owner_details' %}" class="{% if '/owner_details/' in request.path %}
           active-dashboard
       {% endif %} ">DETAILS</a>
           <a href="{% url 'vehicle_register' %}" class="{% if '/vehicle_register/' in request.path %}

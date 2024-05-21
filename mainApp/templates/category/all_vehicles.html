@@ -11,42 +11,94 @@ All Vechicles
         <a href="{{request.META.HTTP_REFERER}}"><i class="fa-solid fa-arrow-left"></i> Go back</a>
     </div>
 
-    <br />
     <div class="row">
-        {% for vehicle in vehicles %}
-        <div class="col-md-6">
-            <div class="card mb-3 " style="height: 300px; border: 2px solid black !important;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="{{ vehicle.image.url }}" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="vehicle_model_1 vehicle_model">{{ vehicle.vehicle_model }}</h5>
-                            <br />
-                            <p class="card-text justified">{{ vehicle.description }}</p>
+        <div class="col-md-4">
+            <form class="d-flex gap-1" role="search" method="GET" action="{% url 'search_vehicle' %}">
+                {% csrf_token %}
+                <input class="form-control search-button" type="search" placeholder="Search Vehicle.."
+                    aria-label="Search" name="searched" id="search1" oninput="mirrorText()">
+                <button class="btn learn-more" type="submit">Search</button>
+                <a class="btn learn-more" data-bs-toggle="collapse" href="#filter" role="button" aria-expanded="false"
+                    aria-controls="collapseExample">
+                    Advance
+                </a>
+            </form>
+        </div>
+        
+        <div class="collapse" id="filter">
+            <div class="card card-body">
+                <div class="row">
+                    <form method="GET" action="{% url 'search_vehicle' %}">
+                        {% csrf_token %}
+                        <div class="form-group col-md-2 col-lg-2">
+                            <label for="vehicleName">Vehicle Name:</label>
+                            <input class="form-control search-button" type="search" placeholder="Search Vehicle.."
+                                aria-label="Search" name="searched" id="search2">
+                        </div>
+    
+                        <div class="form-group col-md-2 col-lg-2">
+                            <label for="rateMin">Minimum Rate:</label>
+                            <input type="number" min=0 class="form-control" id="rateMin" placeholder="0" name="min_rate">
+                        </div>
+                        <div class="form-group col-md-2 col-lg-2">
+                            <label for="rateMax">Maximum Rate:</label>
+                            <input type="number" min=0 class="form-control" id="rateMax" placeholder="15000"
+                                name="max_rate">
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label for="category">Category</label>
+                            <select id="category" class="form-control" name="category">
+                              <option selected>Choose...</option>
+                              {% for cat in categories %}
+                              <option value="{{ cat }}">{{ cat }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                          
+                        <button class="btn learn-more" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <div class="row">
+            {% for vehicle in vehicles %}
+            <div class="col-md-6">
+                <div class="card mb-3 " style="height: 300px; border: 2px solid black !important;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{ vehicle.image.url }}" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="vehicle_model_1 vehicle_model">{{ vehicle.vehicle_model }}</h5>
+                                <br />
+                                <p class="card-text justified">{{ vehicle.description }}</p>
 
 
-                            <br /><br />
+                                <br /><br />
 
-                            {% if request.user.is_customer %}
-                            <a href="/customer_home/"><button type="button" class="btn learn-more">Rent</button></a>
-                            {% else %}
-                            <a href="/customer_needed/"><button type="button" class="btn learn-more">Rent</button></a>
-                            {% endif %}
+                                {% if request.user.is_customer %}
+                                <a href="/customer_home/"><button type="button" class="btn learn-more">Rent</button></a>
+                                {% else %}
+                                <a href="/customer_needed/"><button type="button"
+                                        class="btn learn-more">Rent</button></a>
+                                {% endif %}
 
-                            <a href="{% url 'vehicle' vehicle.id  %}"><button type="button"
-                                    class="btn learn-more">Details</button></a>
-                            <h4 style="float: right;"><strong>RS {{vehicle.rent_price}}</strong></h4>
-                            <br>
-                            <br>
+                                <a href="{% url 'vehicle' vehicle.id  %}"><button type="button"
+                                        class="btn learn-more">Details</button></a>
+                                <h4 style="float: right;"><strong>RS {{vehicle.rent_price}}/day</strong></h4>
+                                <br>
+                                <br>
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-</div>
-{% endblock content %}
+    {% endblock content %}
