@@ -94,8 +94,12 @@ def customer_details(request):
      return render(request, 'pages/customer/customer_details.html')
 
 @customer_only
-def rent_page(request):
-    return render(request, 'pages/customer/rent_page.html')
+def rent_page(request, id):
+    vehicle = Vehicles.objects.get(id=id)
+    context = {
+        "vehicle":vehicle,
+    }
+    return render(request, 'pages/customer/rent_page.html', context)
 # customer only section ends
 
 # owner only section

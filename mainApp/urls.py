@@ -13,7 +13,7 @@ urlpatterns = [
     
     # dashboard configs
     # customer dashboard
-    path('rent_page/', rent_page, name='rent_page'),
+    path('rent_page/<int:id>', rent_page, name='rent_page'),
     path('initiate',initkhalti,name="initiate"),
 
     # owner dashboard

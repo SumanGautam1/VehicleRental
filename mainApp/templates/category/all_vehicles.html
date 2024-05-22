@@ -81,7 +81,7 @@ All Vechicles
                                 <br /><br />
 
                                 {% if request.user.is_customer %}
-                                <a href="/customer_details/"><button type="button" class="btn learn-more">Rent</button></a>
+                                <a href="{% url 'rent_page' vehicle.id %}"><button type="button" class="btn learn-more">Rent</button></a>
                                 {% else %}
                                 <a href="/customer_needed/"><button type="button"
                                         class="btn learn-more">Rent</button></a>
@@ -101,4 +101,5 @@ All Vechicles
             {% endfor %}
         </div>
     </div>
+</div>
     {% endblock content %}

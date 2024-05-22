@@ -83,7 +83,7 @@ body{
     position: relative;
 }
 
-.form label .input, input, textarea {
+.form label .input, input, textarea, select, option {
     background-color: #333 !important;
     color: #fff !important;
     width: 100%;
@@ -188,3 +188,21 @@ body{
     margin: 50px;
 }
 
+input::placeholder{
+    color: rgb(187, 187, 187) !important;
+}
+
+.veh_details{
+    background-color: #333 !important;
+    color: #fff !important;
+    border: 2px solid #fff;
+}
+
+.card-subtitle{
+    font-size: small;
+}
+
+.vehicle_rent_model{
+    font-weight: bold;
+    font-variant: small-caps;
+}
