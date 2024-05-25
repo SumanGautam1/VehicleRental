@@ -20,36 +20,6 @@
                 {% csrf_token %}
         
                 <p class="title">Register </p>
-                <!-- <div class="flex">
-                    <label>
-                        <input class="input" type="text" placeholder="" required="" name="first_name">
-                        <span>Firstname</span>
-                    </label>
-        
-                    <label>
-                        <input class="input" type="text" placeholder="" required="" name="last_name">
-                        <span>Lastname</span>
-                    </label>
-                </div>
-        
-                <label>
-                    <input class="input" type="text" placeholder="" required="" name="username">
-                    <span>Username</span>
-                </label>
-        
-                <label>
-                    <input class="input" type="email" placeholder="" required="" name="email">
-                    <span>Email</span>
-                </label>
-        
-                <label>
-                    <input class="input" type="password" placeholder="" required="" name="password">
-                    <span>Password</span>
-                </label>
-                <label>
-                    <input class="input" type="password" placeholder="" required="" name="password1">
-                    <span>Confirm password</span>
-                </label> -->
 
                 {{form.as_p}}
                 <button class="submit">Submit</button>

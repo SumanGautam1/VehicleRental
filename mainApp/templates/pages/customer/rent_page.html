@@ -25,53 +25,53 @@ Rent Vehicle
 
       <form class="form" method="POST" action="{% url 'initiate' %}">
         {% csrf_token %}
-
-        <p class="title">Enter Your Details </p>
-
+    
+        <p class="title">Enter Your Details</p>
+    
         <div class="details">
-          <div class="mb-3">
-            <label class="form-label"><b>Full Name</b></label>
-            <input type="text" class="form-control" name="username">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label"><b>Phone Number</b></label>
-            <input type="text" class="form-control" name="phone">
-          </div>
-
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label"><b>Email address</b></label>
-            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" ><b>Rent Days:</b></label>
-            <select class="form-control" id="rent_days" name="rent_days">
-                <option value="1">1 day</option>
-                <option value="3">3 days</option>
-                <option value="5">5 days</option>
-                <option value="10">10 days</option>
-            </select>
+            <div class="mb-3">
+                <label class="form-label"><b>Full Name</b></label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+    
+            <div class="mb-3">
+                <label class="form-label"><b>Phone Number</b></label>
+                <input type="text" class="form-control" name="phone" required>
+            </div>
+    
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label"><b>Email address</b></label>
+                <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+            </div>
+    
+            <div class="mb-3">
+                <label class="form-label"><b>Rent Days:</b></label>
+                <select class="form-control" id="rent_days" name="rent_days">
+                    <option value="1">1 day</option>
+                    <option value="3">3 days</option>
+                    <option value="5">5 days</option>
+                    <option value="10">10 days</option>
+                </select>
+            </div>
+    
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label"><b>Amount</b></label>
+                <input class="form-control" type="text" id="rent_price" placeholder="RS {{ vehicle.rent_price }}" name="amount" disabled>
+            </div>
+    
+            <input type="hidden" name="vehicle_id" value="{{ vehicle.id }}">
+            <input type="hidden" name="vehicle_name" value="{{ vehicle.vehicle_model }}">
+            <input type="hidden" name="owned_by" value="{{ vehicle.uploaded_by }}">
+            <input type="hidden" name="pixd" value="{{ uuid4 }}">
+            <button type="submit" class="btn signin">Pay With Khalti</button>
+            <input type="hidden" name="return_url">
         </div>
-
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label"><b>Amount</b></label>
-            <input class="form-control" type="number" id="rent_price" placeholder="RS {{vehicle.rent_price}}" name="amount" disabled>
-          </div>
-
-          <input type="hidden" name="purchase_order_id" value="kjnk1232k1k4b">
-          <input type="hidden" name="purchase_order_name" value="subscription">
-
-          <button type="submit" class="btn signin" value="Pay With Khalti">Subscribe</button>
-          <input type="hidden" name="return_url" value="http://127.0.0.1:8000/rent_page">
-        </div>
-
-
-
-      </form>
+    </form>
+    
 
     </div>
   </div>
 </div>
+
 
 {% endblock content %}

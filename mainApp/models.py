@@ -32,11 +32,18 @@ class Vehicles(models.Model):
 	category = models.ForeignKey(Category, on_delete=models.CASCADE)
 	description = models.CharField(max_length=250, default='', blank=True, null=True)
 	image = models.ImageField(upload_to='uploads/product/')
-	uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
+	uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_vehicles')
+	rented_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='rented_vehicles')
 	isDelete = models.BooleanField(default=False)
+	available = models.BooleanField(default=True)
 
 	def __str__(self):
 		return self.vehicle_model
 
 
-
+class RentTransaction(models.Model):
+    vehicle = models.ForeignKey(Vehicles, on_delete=models.CASCADE)
+    transaction_id = models.CharField(max_length=100)
+    amount = models.PositiveIntegerField(default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_rented = models.DateTimeField(auto_now_add=True)

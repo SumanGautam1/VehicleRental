@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from .models import *
 from .forms import SignUpForm, LoginForm, VehicleForm
 from django.contrib.auth import authenticate, login, logout
@@ -8,6 +8,10 @@ from django.contrib.auth.forms import PasswordChangeForm
 from .decorators import admin_only, owner_only, customer_only
 import requests
 import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+from uuid import uuid4
 
 # Create your views here.
 def homepage(request):
@@ -41,10 +45,12 @@ def category_individual(request,space):
     return render(request, 'category/individual_category.html', context)
 
 def all_vehicles(request):
-     vehicles = Vehicles.objects.filter(isDelete=False)
+     vehicles = Vehicles.objects.filter(isDelete=False, available = True)
+     unavailable_vehicle = Vehicles.objects.filter(isDelete=False, available = False)
 
      context={
-          'vehicles':vehicles
+          'vehicles':vehicles,
+          'v2':unavailable_vehicle,
      }
      return render(request, 'category/all_vehicles.html', context)
 
@@ -85,13 +91,10 @@ def search_vehicle(request):
 
 
 # dashboard section start
-def profile(request):
-     return render(request, 'auth/profile_load.html')
-
 # customer only section
 @customer_only
 def customer_details(request):
-     return render(request, 'pages/customer/customer_details.html')
+    return render(request, 'pages/customer/customer_details.html')
 
 @customer_only
 def rent_page(request, id):
@@ -151,6 +154,22 @@ def vehicle_on_rent(request):
         'rented_vehicles': rented_vehicles,
     }
     return render(request, 'pages/owner/vehicle_on_rent.html', context)
+
+
+@owner_only
+def on_leash(request):
+    vehicle = Vehicles.objects.filter(isDelete=False, available = False, uploaded_by=request.user)
+    return render(request, 'pages/owner/on_leash.html', {'vehicle':vehicle})
+
+
+@owner_only
+def returned_leash(request, id):
+    if request.method == 'POST':
+        vehicle = Vehicles.objects.get(id=id, available = False)
+        vehicle.available = True
+        vehicle.save()
+    
+    return redirect('on_leash')
 
 # owner only section ends
 
@@ -241,53 +260,115 @@ def log_out(request):
 
 
 # Payment section begin
-
+# taking the data from user and directing it to khalti
+@csrf_exempt
 def initkhalti(request):
-    url = "https://a.khalti.com/api/v2/epayment/initiate/"
-    return_url = request.POST.get('return_url')
-    website_url = request.POST.get('return_url')
-    amount = 1000
-    purchase_order_id = request.POST.get('purchase_order_id')
-    purchase_order_name = request.POST.get('purchase_order_name')
-    username = request.POST.get('username')
-    email = request.POST.get('email')
-    phone = request.POST.get('phone')
+    if request.method == 'POST':
+        url = "https://a.khalti.com/api/v2/epayment/initiate/"
+        return_url = 'http://127.0.0.1:8000/verify/'
+        amount = 1000
+        transaction_id = str(uuid4())  # Generate a unique transaction ID
+        purchase_order_name = request.POST.get('vehicle_name')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        vehicle_id = request.POST.get('vehicle_id')
+        owned_by = request.POST.get('owned_by')
 
+        # Generate a unique purchase_order_id
+        purchase_order_id = request.POST.get('vehicle_id')
 
-    print("url",url)
-    print("return_url",return_url)
-    print("web_url",website_url)
-    print("amount",amount)
-    print("purchase_order_id",purchase_order_id)
-    print('username',username)
-    print('email',email)
-    print('phone',phone)
-    payload = json.dumps({
-        "return_url": return_url,
-        "website_url": return_url,
-        "amount": amount,
-        "purchase_order_id": purchase_order_id,
-        "purchase_order_name": purchase_order_name,
-        "customer_info": {
-            "name": username,
-            "email": email,
-            "phone": phone,
+        payload = json.dumps({
+            "return_url": return_url,
+            "website_url": return_url,
+            "amount": 1000,
+            "purchase_order_id": purchase_order_id,
+            "purchase_order_name": purchase_order_name,
+            "transaction_id": transaction_id,
+            "customer_info": {
+                "name": username,
+                "email": email,
+                "phone": phone,
+            },
+            "product_details": [
+                {
+                    "identity": vehicle_id,
+                    "name": purchase_order_name,
+                    "unit_price": amount,
+                    "total_price": amount,
+                    "quantity": 1
+                }
+            ],
+            "merchant_username": owned_by,
+        })
+
+        headers = {
+            'Authorization': 'Key fa657fdb5e1a45ae8826ce3a2b45262d',
+            'Content-Type': 'application/json',
         }
-    })
 
-    # put your own live secet for admin
-    headers = {
-        'Authorization': 'Key live_secret_key_68791341fdd94846a146f0457ff7b455',
-        'Content-Type': 'application/json',
-    }
+        response = requests.post(url, headers=headers, data=payload)
+        new_res = response.json()
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+        print("Khalti API Response:", new_res)  # Debugging statement
 
-    print(response.text)
-    new_res = json.loads(response.text)
+        if response.status_code == 200 and 'payment_url' in new_res:
+            return redirect(new_res['payment_url'])
+        else:
+            return JsonResponse({'error': 'Failed to initiate payment', 'details': new_res}, status=400)
 
-    print(type(new_res))
-    # return redirect('notices')
-    # print(response.json())
-    # print(new_res['payment_url'])
-    return redirect(new_res['payment_url'])
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+
+# what to do after payment
+
+@csrf_exempt
+def verifyKhalti(request):
+    url = "https://a.khalti.com/api/v2/epayment/lookup/"
+    if request.method == 'GET':
+        headers = {
+            'Authorization': 'key fa657fdb5e1a45ae8826ce3a2b45262d',
+            'Content-Type': 'application/json',
+        }
+        pidx = request.GET.get('pidx')
+        transaction_id = request.GET.get('transaction_id')
+        purchase_order_id = request.GET.get('purchase_order_id')
+        data = json.dumps({
+            'pidx':pidx
+        })
+        res = requests.request('POST',url,headers=headers,data=data)
+        print(res)
+        print(res.text)
+
+        new_res = json.loads(res.text)
+        print(new_res)
+        
+
+        if new_res['status'] == 'Completed':
+            vehicle = get_object_or_404(Vehicles, id=purchase_order_id)
+            vehicle.available = False
+            vehicle.rented_by = request.user  # Assuming the user is logged in
+            vehicle.save()
+
+            RentTransaction.objects.create(
+                vehicle=vehicle,
+                transaction_id=transaction_id,
+                amount=new_res['total_amount'],  # Assuming amount is returned in the response
+                user=request.user
+            )
+
+            send_mail(
+                'Vehicle Rented',
+                f'Your vehicle {vehicle.vehicle_model} has been rented by {request.user.username}.',
+                'gautamsuman822@gmail.com',
+                [vehicle.uploaded_by.email],
+                fail_silently=False,
+            )
+            return redirect('customer_details')
+        else:
+            print("Payment verification failed. Khalti response:", json.dumps(new_res, indent=4))
+            return JsonResponse({'error': 'Payment verification failed'}, status=400)
+
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)

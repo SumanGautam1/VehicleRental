@@ -14,10 +14,15 @@ urlpatterns = [
     # dashboard configs
     # customer dashboard
     path('rent_page/<int:id>', rent_page, name='rent_page'),
-    path('initiate',initkhalti,name="initiate"),
+
+    # khalti payment integration
+    path('initiate/',initkhalti,name="initiate"),
+     path('verify/',verifyKhalti,name="verify"),
 
     # owner dashboard
     path('vehicle_on_rent/', vehicle_on_rent, name='vehicle_on_rent'),
+    path('on_leash/', on_leash, name='on_leash'),
+    path('returned_leash/<int:id>', returned_leash, name='returned_leash'),
     path('vehicle/update/<int:id>/', vehicle_update, name='vehicle_update'),
     path('vehicle_register/', vehicle_register, name='vehicle_register'),
     path('delete/<int:id>',vehicle_delete,name='vehicle_delete'),

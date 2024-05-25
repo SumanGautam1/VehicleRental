@@ -33,6 +33,9 @@ Home
           <a href="{% url 'vehicle_on_rent' %}" class="{% if '/vehicle_on_rent/' in request.path %}
           active-dashboard
       {% endif %} ">YOUR VEHICLE</a>
+      <a href="{% url 'on_leash' %}" class="{% if '/on_leash/' in request.path %}
+          active-dashboard
+      {% endif %} ">ON RENT</a>
           <a href="{% url 'logout' %}"><button type="button" class="btn btn-primary">SignOut</button></a>
         </div>
       </div>
