@@ -97,6 +97,11 @@ def customer_details(request):
     return render(request, 'pages/customer/customer_details.html')
 
 @customer_only
+def renting(request):
+    vehicle = Vehicles.objects.filter(isDelete=False, available = False, rented_by=request.user)
+    return render(request, 'pages/customer/renting.html', {'vehicle':vehicle})
+
+@customer_only
 def rent_page(request, id):
     vehicle = Vehicles.objects.get(id=id)
     context = {

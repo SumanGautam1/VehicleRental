@@ -27,7 +27,7 @@ Home
           <a href="{% url 'customer_details' %}" class="{% if '/customer_details/' in request.path %}
           active-dashboard
       {% endif %} ">DETAILS</a>
-          <a href="" class="{% if '/rented_vehicle/' in request.path %}
+          <a href="{% url 'renting' %}" class="{% if '/renting/' in request.path %}
           active-dashboard
       {% endif %} ">RENTING</a>
           <a href="{% url 'logout' %}"><button type="button" class="btn btn-primary">SignOut</button></a>

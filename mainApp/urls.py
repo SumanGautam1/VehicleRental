@@ -14,6 +14,7 @@ urlpatterns = [
     # dashboard configs
     # customer dashboard
     path('rent_page/<int:id>', rent_page, name='rent_page'),
+    path('renting/', renting, name='renting'),
 
     # khalti payment integration
     path('initiate/',initkhalti,name="initiate"),

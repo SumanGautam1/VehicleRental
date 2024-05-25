@@ -29,13 +29,7 @@ Renting
                 <td>{{i.rent_price}}</td>
                 <td>{{i.category}}</td>
                 <td><img src="{{i.image.url}}" class="register-image" alt=""></td>
-                <td>@{{i.rented_by}}</td>
-                <td>
-                    <form method="POST" action="{% url 'returned_leash' i.id %}" style="display: inline-block;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn learn-more">Mark As Returned</button>
-                    </form>
-                </td>
+                <td>@{{i.uploaded_by}}</td>
             </tr>
 
             {% endfor %}
