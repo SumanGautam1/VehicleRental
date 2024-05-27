@@ -28,9 +28,11 @@ urlpatterns = [
     path('vehicle_register/', vehicle_register, name='vehicle_register'),
     path('delete/<int:id>',vehicle_delete,name='vehicle_delete'),
 
+    # review and rating
+
     # categories
     path('category/', category_all, name='all_category'),
-    path('vehicle/<int:pk>', vehicle, name='vehicle'),
+    path('vehicle/<int:id>', vehicle, name='vehicle'),
     path('individual_category/<str:space>', category_individual, name='individual_category'),
     path('all_vehicles/', all_vehicles, name='all_vehicles'),
     path('search_vehicle/', search_vehicle, name='search_vehicle'),

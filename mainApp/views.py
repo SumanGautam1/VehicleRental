@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from .models import *
-from .forms import SignUpForm, LoginForm, VehicleForm
+from .forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -54,13 +54,31 @@ def all_vehicles(request):
      }
      return render(request, 'category/all_vehicles.html', context)
 
-def vehicle(request,pk):
-    vehicle = Vehicles.objects.get(id=pk)
+def vehicle(request,id):
+    vehicle = Vehicles.objects.get(id=id)
+    reviews = vehicle.reviews.all()
+    form = ReviewForm()  # Initialize the form here
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.vehicle = vehicle
+            review.user = request.user
+            review.save()
+            return redirect('vehicle', id=vehicle.id)
+
     context = {
-         'vehicle':vehicle,     
+         'vehicle':vehicle,
+         'reviews':reviews,
+         'form': form,
+         'range':range(1, 6),   
     }
 
     return render(request, 'pages/vehicle.html',context)
+
+
+
 
 # Check if the input is a non-null and non-empty value
 def is_valid_queryparam(param):
@@ -108,6 +126,9 @@ def rent_page(request, id):
         "vehicle":vehicle,
     }
     return render(request, 'pages/customer/rent_page.html', context)
+
+
+
 # customer only section ends
 
 # owner only section

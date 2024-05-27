@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Vehicles
+from .models import User, Vehicles, Review
 
 
 USER_TYPE_CHOICES = [
@@ -76,9 +76,9 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
-
+    # using the values 1,2,3 to decide whether it's owner, customer or admin
     def save(self, commit=True):
-        user = super().save(commit=False)
+        user = super().save(commit=False)   
         user_type = self.cleaned_data['user_type']
         if user_type == 2:
             user.is_admin = True
@@ -103,4 +103,14 @@ class VehicleForm(forms.ModelForm):
         fields = ['vehicle_model', 'rent_price', 'category', 'description', 'image']
         widgets = {
             'category': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment']
+        widgets = {
+            'rating': forms.Select(choices=[(i, i) for i in range(1, 6)], attrs={'class': 'form-control'}),
+            'comment': forms.Textarea(attrs={'rows': 4, 'class': 'form-control'}),
         }

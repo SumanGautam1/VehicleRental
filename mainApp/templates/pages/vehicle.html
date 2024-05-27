@@ -15,6 +15,7 @@
     <div class="row g-0">
       <div class="col-md-4">
         <img src="{{ vehicle.image.url }}" class="img-fluid rounded-start" alt="...">
+        <small>Owned by: @{{vehicle.uploaded_by}}</small>
       </div>
       <div class="col-md-8">
         <div class="card-body">
@@ -37,6 +38,42 @@
       </div>
     </div>
   </div>
+
+  <h1>Reviews</h1>
+  <ul>
+    {% for review in reviews %}
+    <li>
+        <strong>{{ review.user.username }}</strong>: 
+        <span class="star-rating">
+          {% for i in range %}
+              <i class="fa {% if review.rating >= i %}fa-star{% else %}fa-star-o{% endif %}"></i>
+          {% endfor %}
+      </span> - {{ review.comment }} 
+        ({{ review.created_at }})
+    </li>
+    {% endfor %}
+</ul>
+
+<a class="btn learn-more" data-bs-toggle="collapse" href="#review" role="button" aria-expanded="false"
+                    aria-controls="collapseExample">
+                    Add a Review
+                </a>
+
+
+                <div class="collapse" id="review">
+                  <div class="card card-body">
+                      <div class="row">
+                              <form class="form" method="POST">
+                                {% csrf_token %}
+                        
+                                <p class="title">{{ vehicle.vehicle_model }} </p>
+                                {{ form.as_p }}
+                                
+                              <button class="btn learn-more" type="submit">Submit</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
 </div>
 
 

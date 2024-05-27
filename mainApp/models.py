@@ -47,3 +47,17 @@ class RentTransaction(models.Model):
     amount = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_rented = models.DateTimeField(auto_now_add=True)
+	
+    def __str__(self):
+          return self.transaction_id
+
+
+class Review(models.Model):
+    vehicle = models.ForeignKey(Vehicles, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    rating = models.PositiveIntegerField()
+    comment = models.TextField()
+    created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user.username} - {self.vehicle.vehicle_model}'
