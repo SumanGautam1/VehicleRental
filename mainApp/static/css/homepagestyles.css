@@ -122,6 +122,9 @@
     .brand-title{
         display: none !important;
     }
+    .details_container{
+        padding: 0px;
+      }
 
 
 

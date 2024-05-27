@@ -29,7 +29,7 @@
 /* The sidebar menu */
 .sidenav {
     width: 190px; /* Set the width of the sidebar */
-    height: 835px;
+    height: auto;
     background-image: radial-gradient(ellipse at left, #185389,#030e17, #214465);
     padding-top: 20px;
   }
@@ -88,6 +88,12 @@
   margin: 80px auto 80px auto;
   border-radius: 10%;
   padding: 80px;
+}
+
+@media screen and (max-width: 768px) {
+  .details_container{
+      margin: 0px;
+    }
 }
 
 .detail_image{
