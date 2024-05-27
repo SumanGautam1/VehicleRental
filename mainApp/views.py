@@ -57,9 +57,7 @@ def all_vehicles(request):
 def vehicle(request,id):
     vehicle = Vehicles.objects.get(id=id)
     reviews = vehicle.reviews.all()
-    form = ReviewForm()  # Initialize the form here
-
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_customer:
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
@@ -67,6 +65,8 @@ def vehicle(request,id):
             review.user = request.user
             review.save()
             return redirect('vehicle', id=vehicle.id)
+    else:
+        form = ReviewForm()
 
     context = {
          'vehicle':vehicle,

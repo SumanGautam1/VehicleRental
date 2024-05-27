@@ -40,40 +40,68 @@
   </div>
 
   <h1>Reviews</h1>
-  <ul>
+
+  <div class="row">
     {% for review in reviews %}
-    <li>
-        <strong>{{ review.user.username }}</strong>: 
-        <span class="star-rating">
-          {% for i in range %}
-              <i class="fa {% if review.rating >= i %}fa-star{% else %}fa-star-o{% endif %}"></i>
-          {% endfor %}
-      </span> - {{ review.comment }} 
-        ({{ review.created_at }})
-    </li>
+    <div class="col-md-3">
+      <div class="card text-bg-secondary mb-3" style="max-width: 18rem;">
+        <div class="card-header"><strong>@{{ review.user.username }} says</strong>:</div>
+        <div class="card-body">
+          <h5 class="title">
+            {% for i in range %}
+            <i class="fa {% if review.rating >= i %}fa-star{% else %}fa-star-o{% endif %}"
+              style="color: gold !important;"></i>
+            {% endfor %}
+          </h5>
+          <p class="card-text">{{ review.comment }} </p>
+          <small>({{ review.created_at }})</small>
+        </div>
+
+      </div>
+    </div>
     {% endfor %}
-</ul>
+  </div>
 
-<a class="btn learn-more" data-bs-toggle="collapse" href="#review" role="button" aria-expanded="false"
-                    aria-controls="collapseExample">
-                    Add a Review
-                </a>
+    {% if request.user.is_customer %}
+    <a class="btn learn-more" data-bs-toggle="collapse" href="#review" role="button" aria-expanded="false"
+      aria-controls="collapseExample">
+      Add a Review
+    </a>
+    {% else %}
+    <a class="btn learn-more" data-bs-toggle="collapse" href="#review1" role="button" aria-expanded="false"
+      aria-controls="collapseExample">
+      Add a Review
+    </a>
+
+    {% endif %}
+
+  <div class="collapse" id="review">
+    <div class="card card-body">
+      <div class="row">
+        <form class="form" method="POST">
+          {% csrf_token %}
+
+          <p class="title">{{ vehicle.vehicle_model }} </p>
+          {{ form.as_p }}
+
+          <button class="btn learn-more" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
 
-                <div class="collapse" id="review">
-                  <div class="card card-body">
-                      <div class="row">
-                              <form class="form" method="POST">
-                                {% csrf_token %}
-                        
-                                <p class="title">{{ vehicle.vehicle_model }} </p>
-                                {{ form.as_p }}
-                                
-                              <button class="btn learn-more" type="submit">Submit</button>
-                          </form>
-                      </div>
-                  </div>
-              </div>
+  <div class="collapse" id="review1">
+    <div class="card card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <small>You must login as a customer to leave a review.</small>
+          <br>
+        <a class="btn learn-more" href="/login/">LogIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
