@@ -14,7 +14,10 @@
 }
 
 .active-dashboard{
-  color: white !important;
+  border: 3px solid #000 !important;
+  border-radius: 15%;
+  background-color: #9DC1E3;
+  color: #000 !important;
 }
 
 @media screen and (max-width: 700px){
@@ -27,7 +30,7 @@
 .sidenav {
     width: 190px; /* Set the width of the sidebar */
     height: 835px;
-    background-color: #252525;
+    background-image: radial-gradient(ellipse at left, #185389,#030e17, #5896d1);
     padding-top: 20px;
   }
 
@@ -61,8 +64,9 @@
     padding: 10px;
     text-decoration: none;
     font-size: 17px;
-    color: #818181;
+    color: #ffffff;
     display: block;
+    font-weight: 600;
   }
   
   /* When you mouse over the navigation links, change their color */
@@ -81,3 +85,5 @@
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
+
+  

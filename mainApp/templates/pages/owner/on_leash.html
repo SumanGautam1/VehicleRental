@@ -8,7 +8,9 @@ On Leash
 {% block sidebar_content %}
 
 <div class="table-responsive table-styles text-center">
+    {% if vehicle %}
     <table class="table table-dark table-striped table-bordered align-middle caption-top">
+        
         <caption><h1 style="color: white; font-weight: 600 !important; font-variant: small-caps;">Vehicles On Leash</h1></caption>
         <thead>
             <tr>
@@ -21,6 +23,7 @@ On Leash
                 <th scope="col">Action</th>
             </tr>
         </thead>
+          
 
         <tbody>
             {% for i in vehicle %}
@@ -42,6 +45,9 @@ On Leash
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+          <h1 style="color: white; font-weight: 600 !important; font-variant: small-caps;">No Vehicles On Leash Currently</h1>
+        {% endif %}
 </div>
 
 

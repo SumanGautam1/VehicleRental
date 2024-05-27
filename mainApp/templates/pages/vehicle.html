@@ -42,6 +42,7 @@
   <h1>Reviews</h1>
 
   <div class="row">
+    {% if reviews %}
     {% for review in reviews %}
     <div class="col-md-3">
       <div class="card text-bg-secondary mb-3" style="max-width: 18rem;">
@@ -60,6 +61,9 @@
       </div>
     </div>
     {% endfor %}
+    {%else%}
+    <h5>No reviews yet</h5>
+    {% endif %}
   </div>
 
     {% if request.user.is_customer %}

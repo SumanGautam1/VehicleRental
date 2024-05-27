@@ -8,6 +8,7 @@ Your Vechicles
 {% block sidebar_content %}
 
 <div class="table-responsive table-styles text-center">
+    {% if rented_vehicles %}
     <table class="table table-dark table-striped table-bordered align-middle caption-top">
         <caption><h1 style="color: white; font-weight: 600 !important; font-variant: small-caps;">Your Vehicles</h1></caption>
         <thead>
@@ -39,6 +40,10 @@ Your Vechicles
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <h1 style="color: white; font-weight: 600 !important; font-variant: small-caps;">You Have Not Registered Your Vehicle Yet!</h1>
+      
+    {% endif %}
 </div>
 
 

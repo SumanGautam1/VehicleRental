@@ -17,7 +17,7 @@
 
 /* For the gradient effect */
 .navbar-home{
-    background-image: linear-gradient(to right, #2a69a3, #49a1f4);
+    background-image: linear-gradient(to right, #133c63, #5896d1);
 }
 
 /* Changing the icon color. I've used icon from fontawesome instead of bootstrap default icon.
@@ -49,7 +49,7 @@
 
 
 .dropdown-menu{
-    background-color: #49a1f4;
+    background-color: #133c63;
     border:2px solid #000;
     position: absolute !important;
 
@@ -77,11 +77,6 @@
 
 
 /* Introduction section */
-#welcome {
-    background-image: linear-gradient(to right, #5896d1, #49a1f4);
-    color: white;
-    padding-top: 5%;
-}
 
 .introduction{
     margin: 50px auto;
@@ -101,7 +96,7 @@
 
 
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 768px) {
     .title-col {
         display: flex;
     }
@@ -109,10 +104,11 @@
     .footer-logo-image {
         height: auto;
         width: 100%;
+        padding-right: 50px;
     }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
     .title-col {
         display: flex;
     }
@@ -120,6 +116,11 @@
     .footer-logo-image {
         height: 200px;
         width: 200px;
+        
+    }
+
+    .brand-title{
+        display: none !important;
     }
 
 
@@ -132,13 +133,12 @@
 
 /* For the gradient effect */
 #footer {
-    background-image: linear-gradient(to right, #225280, #317abe);
+    background-image: linear-gradient(to bottom, #133c63,#5896d1,#030e17);
     color: #fff;
 }
 
 #footer h3::after {
     content: '';
-    /* background-image: linear-gradient(to right, #5896d1, #49a1f4); */
     background-color: #fff;
     height: 3px;
     width: auto;
@@ -203,15 +203,14 @@ hr {
 }
 .btn:hover {
     border: 3px solid black;
-    color: white;
-    background-color: #648EB5 !important;
+    color: #000;
+    background-color: #9DC1E3 !important;
+    transform: translateY(5px);
 }
 
 .card-img-wrapper {
     position: relative;
 }
-
-
 
 
 /* Rent Now section */
@@ -376,8 +375,8 @@ hr {
 }
 
 .readmore_bt a:hover {
-    color: #ffffff;
-    background-color: #5896d1;
+    color: #000;
+    background-color: #9DC1E3;
     border: 3px solid #070603;
 }
 
@@ -447,4 +446,18 @@ hr {
 
 #dealer-home{
     background-color: #252525 !important;
+}
+
+
+.active{
+    border: 3px solid #000 !important;
+    border-radius: 15%;
+    background-color: #9DC1E3;
+    color: #000 !important;
+    box-shadow: 0px 0px 20px #fff; 
+}
+
+.nav-item:hover{
+    transform: translateY(-5px);
+    color: white !important;
 }

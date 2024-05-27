@@ -64,9 +64,11 @@ All Vechicles
 
         <br />
         <div class="row">
+            <h1 style="margin-top: 50px;">Currently Available:</h1>
+            {% if vehicles %}
             {% for vehicle in vehicles %}
             <div class="col-md-6">
-                <div class="card mb-3 " style="height: 300px; border: 2px solid black !important;">
+                <div class="card mb-3 " style="border: 2px solid black !important;">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="{{ vehicle.image.url }}" class="img-fluid rounded-start" alt="...">
@@ -83,10 +85,9 @@ All Vechicles
                                 <br /><br />
 
                                 {% if request.user.is_customer %}
-                                <form method="POST" action="{% url 'rent_page' vehicle.id %}" style="display: inline-block;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn learn-more">Rent</button>
-                                </form>
+                                
+                                <a href="{% url 'rent_page' vehicle.id %}"><button type="button"
+                                    class="btn learn-more">Rent</button></a>
                                 {% else %}
                                 <a href="/customer_needed/"><button type="button"
                                         class="btn learn-more">Rent</button></a>
@@ -104,8 +105,13 @@ All Vechicles
                 </div>
             </div>
             {% endfor %}
-
-            <h1>Currently Unavailable</h1>
+            {% else %}
+            <h5>No vehicles are available right now!</h5>
+            {% endif %}
+            
+            <hr>
+            <h1 style="margin-top: 50px;">Currently Unavailable: </h1>
+            {% if v2 %}
             {% for vehicle in v2 %}
             
             <div class="col-md-6">
@@ -138,6 +144,10 @@ All Vechicles
                 </div>
             </div>
             {% endfor %}
+
+            {% else %}
+            <h5>All vehicles are available right now!</h5>
+            {% endif %}
         </div>
     </div>
 </div>
