@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-
-
 
 <div class="container" style="margin-bottom: 70px;">
   <div class="back_arrow">
@@ -45,8 +44,8 @@
     {% if reviews %}
     {% for review in reviews %}
     <div class="col-md-3">
-      <div class="card text-bg-secondary mb-3" style="max-width: 18rem;">
-        <div class="card-header"><strong>@{{ review.user.username }} says</strong>:</div>
+      <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+        <div class="card-header"><strong>@{{ review.user.username }}</strong> says:</div>
         <div class="card-body">
           <h5 class="title">
             {% for i in range %}

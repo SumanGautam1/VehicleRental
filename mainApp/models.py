@@ -26,6 +26,16 @@ class User(AbstractUser):
     is_customer = models.BooleanField(default=True)
     is_owner = models.BooleanField(default=False)
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    full_name = models.CharField(max_length=20, blank=True, null=True)
+    phone_number = models.CharField(max_length=10, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
+
 class Vehicles(models.Model):
 	vehicle_model = models.CharField(max_length=100)
 	rent_price = models.PositiveIntegerField(default=0)

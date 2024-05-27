@@ -19,7 +19,12 @@ Home
     <div class="sidenav">
         <div class="elements text-center">
           <div class="image">
-          <p><img src="{% static 'images/pfp.jpeg' %}" class="img-fluid" alt="">
+            {% if profile.profile_picture %}
+            <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="detail_image" style="max-width: 200px;">
+            {% else %}
+            <p><img src="{% static 'images/pfp.jpeg' %}" alt="" class="detail_image"></p>
+              {% endif %}
+            
       
                   <p style="color: white !important; ">@{{ user.username }}</p> </p>
               

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Vehicles, Review
+from .models import User, Vehicles, Review, Profile
 
 
 USER_TYPE_CHOICES = [
@@ -95,6 +95,25 @@ class SignUpForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control custom-email-class'}),
+        }
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['full_name','profile_picture', 'phone_number']
+        widgets = {
+            'full_name': forms.TextInput(attrs={'class': 'form-control custom-full-name-class'}),
+            'profile_picture': forms.FileInput(attrs={'class': 'form-control custom-profile-picture-class'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control custom-phone-number-class'}),
+            
+        }
 
 
 class VehicleForm(forms.ModelForm):

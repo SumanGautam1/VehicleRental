@@ -30,7 +30,7 @@
 .sidenav {
     width: 190px; /* Set the width of the sidebar */
     height: 835px;
-    background-image: radial-gradient(ellipse at left, #185389,#030e17, #5896d1);
+    background-image: radial-gradient(ellipse at left, #185389,#030e17, #214465);
     padding-top: 20px;
   }
 
@@ -52,11 +52,6 @@
     transition: .5s ease;
     backface-visibility: hidden;
   }
-  
-  .image:hover img {
-    opacity: 0.3;
-  }
-  
 
   
   /* The navigation menu links */
@@ -87,3 +82,16 @@
   }
 
   
+.details_container{
+  color: white !important;
+  background-color: #0d2234 !important;
+  margin: 80px auto 80px auto;
+  border-radius: 10%;
+  padding: 80px;
+}
+
+.detail_image{
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+}

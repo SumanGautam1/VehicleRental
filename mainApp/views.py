@@ -63,6 +63,7 @@ def vehicle(request,id):
             review = form.save(commit=False)
             review.vehicle = vehicle
             review.user = request.user
+
             review.save()
             return redirect('vehicle', id=vehicle.id)
     else:
@@ -72,7 +73,7 @@ def vehicle(request,id):
          'vehicle':vehicle,
          'reviews':reviews,
          'form': form,
-         'range':range(1, 6),   
+         'range':range(1, 6),
     }
 
     return render(request, 'pages/vehicle.html',context)
@@ -109,15 +110,40 @@ def search_vehicle(request):
 
 
 # dashboard section start
+    
+
+
 # customer only section
 @customer_only
 def customer_details(request):
-    return render(request, 'pages/customer/customer_details.html')
+    user_form = UserUpdateForm(instance=request.user)
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    profile_form = ProfileUpdateForm(instance=profile)
+
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('customer_details')  # Redirect to a page displaying the updated profile
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'user': request.user,
+        'profile': request.user.profile,
+    }
+    return render(request, 'pages/customer/customer_details.html', context)
 
 @customer_only
 def renting(request):
     vehicle = Vehicles.objects.filter(isDelete=False, available = False, rented_by=request.user)
-    return render(request, 'pages/customer/renting.html', {'vehicle':vehicle})
+    context = {
+        'profile': request.user.profile,
+        'vehicle':vehicle
+    }
+    return render(request, 'pages/customer/renting.html', context)
 
 @customer_only
 def rent_page(request, id):
@@ -134,7 +160,26 @@ def rent_page(request, id):
 # owner only section
 @owner_only
 def owner_details(request):
-     return render(request, 'pages/owner/owner_details.html')
+    user_form = UserUpdateForm(instance=request.user)
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    profile_form = ProfileUpdateForm(instance=profile)
+
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('owner_details')  # Redirect to a page displaying the updated profile
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'user': request.user,
+        'profile': request.user.profile,
+    }
+
+    return render(request, 'pages/owner/owner_details.html', context) 
 
 @owner_only
 def vehicle_register(request):
@@ -147,7 +192,12 @@ def vehicle_register(request):
             return redirect('owner_details')
     else:
         form = VehicleForm()
-    return render(request, 'pages/owner/vehicle_register.html', {'form': form})
+
+    context = {
+        'profile': request.user.profile,
+        'form':form,
+    }
+    return render(request, 'pages/owner/vehicle_register.html', context)
 
 @owner_only
 def vehicle_update(request, id):
@@ -178,6 +228,7 @@ def vehicle_on_rent(request):
     context={
         'context':'suman',
         'rented_vehicles': rented_vehicles,
+        'profile': request.user.profile,
     }
     return render(request, 'pages/owner/vehicle_on_rent.html', context)
 
@@ -185,7 +236,12 @@ def vehicle_on_rent(request):
 @owner_only
 def on_leash(request):
     vehicle = Vehicles.objects.filter(isDelete=False, available = False, uploaded_by=request.user)
-    return render(request, 'pages/owner/on_leash.html', {'vehicle':vehicle})
+
+    context = {
+        'profile': request.user.profile,
+        'vehicle':vehicle,
+    }
+    return render(request, 'pages/owner/on_leash.html', context)
 
 
 @owner_only
