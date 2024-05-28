@@ -31,6 +31,10 @@
     <!-- Alertify CSS -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css" />
+
+    <!-- AOS stylesheet -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -38,7 +42,7 @@
     <section id="nav-bar">
         <nav class="navbar navbar-expand-lg navbar-home">
             <div class="container">
-                <a class="navbar-brand" href="">
+                <a class="navbar-brand" href="/">
                     <img src="{% static 'images/logo1.png' %}" alt="Logo" width="60" height="50" class="d-inline-block align-text-top">
                     <h5 class="brand-title d-inline-block align-text-top" style="font-weight: 600;">
                         <div class="english-brand"><b style="color: #f7e600">V</b>ehicle</div>
@@ -62,7 +66,7 @@
                           {% endif %} " href="/about/">ABOUT US</a>
                         </li>
                         <li class="nav-item dropdown-center" id="rent-dropdown">
-                            <a class="nav-link dropdown-toggle {% if '/category/' in request.path or '/individual_category/' in request.path or '/vehicle/' in request.path or '/all_vehicles/' in request.path %}
+                            <a class="nav-link dropdown-toggle {% if '/category/' in request.path or '/individual_category/' in request.path or '/all_vehicles/' in request.path %}
                             active
                           {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 RENT VEHICLE
@@ -120,7 +124,7 @@
     <!-- Footer Section -->
     <section id="footer">
         <div class="container container-fluid">
-            <div class="row">
+            <div class="row" data-aos="fade-up" data-aos-duration="1000">
                 <div class="col-md-6">
                     <div class="card mb-3 bg-transparent border-0">
                         <div class="row g-0">
@@ -208,10 +212,19 @@
     <!-- External JS file-->
     <script src="{% static 'js/base.js' %}"></script>
 
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        AOS.init();
+      </script>
+
     <!-- Extra JS if needed -->
         {% block footer-js %}
           
         {% endblock footer-js %}
+
+
 
 </body>
 

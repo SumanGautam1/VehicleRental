@@ -361,7 +361,7 @@ hr {
 .details a{
     padding: 5px;
     font-size: 18px;
-    background-color: #252525;
+    background-color: #0d2234 ;
     text-align: center;
     border: 3px solid #fff;
     margin: 0 auto;
@@ -373,8 +373,8 @@ hr {
 }
 .details a:hover{
     background-color: #fff;
-    color: #252525;
-    border: 3px solid #252525;
+    color: #0d2234 ;
+    border: 3px solid #0d2234 ;
 }
 
 .readmore_bt a:hover {
@@ -448,7 +448,7 @@ hr {
 }
 
 #dealer-home{
-    background-color: #252525 !important;
+    background-color: #0d2234  !important;
 }
 
 
@@ -463,4 +463,10 @@ hr {
 .nav-item:hover{
     transform: translateY(-5px);
     color: white !important;
+}
+
+.review-card{
+    background-color: #133c63;
+    color: white;
+    box-shadow: 0 0 20px 10px rgba(12, 12, 12, 0.7);
 }

@@ -10,16 +10,16 @@ Home
 <div class="container introduction">
   <div class="row">
     <div class="col-md-6">
-      <p class="english-title">WELCOME TO VEHICLE GO!</p>
-      <p>At Vehicle Go, we believe in empowering exploration. We're a passionate
+      <p class="english-title" data-aos="fade-up" data-aos-duration="500">WELCOME TO VEHICLE GO!</p>
+      <p data-aos="fade-up" data-aos-duration="500">At Vehicle Go, we believe in empowering exploration. We're a passionate
         team dedicated to making car rentals effortless and accessible. Our
         user-friendly web application simplifies the rental process, allowing you to
         find the perfect vehicle for your adventure in just a few clicks. From weekend
         getaways to cross-country road trips, we're here to get you on the road.</p>
-      <a href="/about/"><button type="button" class="btn learn-more">learn more</button></a>
+      <a href="/about/"><button type="button" class="btn learn-more" data-aos="fade-up" data-aos-duration="500">learn more</button></a>
     </div>
     <div class="col-md-6 about-image">
-      <img src="{% static 'images/renting-vehicles.jpg' %}" class="img-fluid showing_car" alt="cars">
+      <img src="{% static 'images/renting-vehicles.jpg' %}" class="img-fluid showing_car" alt="cars" data-aos="fade-up" data-aos-duration="500">
     </div>
   </div>
 </div>
@@ -76,10 +76,10 @@ Home
 <!-- How it works -->
 <div class="container" style="margin-bottom: 50px;">
   <div class="row">
-    <p class="work-title">HOW IT WORKS?</p>
+    <p class="work-title" data-aos="fade-up" data-aos-duration="1000">HOW IT WORKS?</p>
 
    {% for i in works %}
-   <div class="col-lg-3 col-md-6 col-sm-12">
+   <div class="col-lg-3 col-md-6 col-sm-12" data-aos="fade-up" data-aos-duration="1000">
       <div class="card working-card" style="width: 18rem;">
          <h5 class="card-title text-center">{{i.title}}</h5>
         <img src="{{ i.image.url }}" class="card-img-top" alt="...">

@@ -7,11 +7,11 @@ All Vechicles
 {% block content %}
 
 <div class="container">
-    <div class="back_arrow">
+    <div class="back_arrow" data-aos="fade-up" data-aos-duration="1000">
         <a href="{{request.META.HTTP_REFERER}}"><i class="fa-solid fa-arrow-left"></i> Go back</a>
     </div>
 
-    <div class="row">
+    <div class="row" data-aos="fade-up" data-aos-duration="1000">
         <div class="col-md-4">
             <form class="d-flex gap-1" role="search" method="GET" action="{% url 'search_vehicle' %}">
                 {% csrf_token %}
