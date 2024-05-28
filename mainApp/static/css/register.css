@@ -187,7 +187,10 @@ body{
     width: 1000px;
     margin: 50px;
 }
-
+table tr th, td{
+    background-color: #0d2234 !important;
+    color: white !important;
+}
 input::placeholder{
     color: rgb(187, 187, 187) !important;
 }
