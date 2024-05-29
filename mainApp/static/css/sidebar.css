@@ -102,3 +102,8 @@
   height: 200px;
   width: 200px;
 }
+
+#map {
+  height: 400px;
+  width: 100%;
+}
